@@ -6,18 +6,104 @@
 
 using namespace std;
 
+class Vehicle // definition
+{
+public:
+    Vehicle(); // constructor
+    float getSpeed(); // functions
+    void accelerate(); // functions
+    void beepHorn(); // functions
+    float speed; // data; variable
+    virtual void decelerate() = 0; // pure virtual function; class becomes abstract that cannot be directly used; can inherite from it and implement the pure virtual function
+
+private:
+    // float speed; // data; variable
+};
+
+class Train : public Vehicle // definition inherite from the vehicle class; all properties and functions from vehicle; cannot access private
+{
+public:
+    Train(); // constructor
+    void beepHorn(); // to have train beepHorn instead of vehicle beepHorn
+    virtual void decelerate() override;
+};
+
+Train::Train() // constructor
+{
+
+}
+
+void Train::beepHorn()
+{
+    if (getSpeed() < 0.5f)
+    {
+        std::cout << getSpeed() << ": bip bip" << std::endl;
+    }
+    else
+    {
+        std::cout << getSpeed() << ": BOOP BIIP!" << std::endl;
+    }
+}
+
+void Train::decelerate()
+{
+    speed -= 0.5f;
+}
+
+Vehicle::Vehicle() : speed(0.0f) // constructor; initialization of speed
+{
+
+}
+
+float Vehicle::getSpeed()
+{
+    return speed;
+}
+
+void Vehicle::accelerate()
+{
+    speed += 0.5f;
+}
+
+void Vehicle::decelerate()
+{
+    speed -= 0.5f;
+}
+
+void Vehicle::beepHorn()
+{
+    std::cout << "meep meep" << std::endl;
+}
+
 int main()
 {
 
+    int a, b, d;
     double x = 0.0;
     double y = 0.0;
     double result = 0.0;
     char oper = '+';
 
-    cout << "Hello World!\n";
-    cout << "Calculator Console Application" << endl << endl;
-    cout << "Please enter the operation. Format: a+b | a-b | a*b | a/b | a%b "
-        << endl;
+    //Vehicle v;
+    //v.beepHorn();
+
+    Train t;
+    t.beepHorn();
+    t.accelerate();
+    t.beepHorn();
+    t.decelerate();
+    t.beepHorn();
+
+    //cout << "Hello World!\n";
+    //cout << "Calculator Console Application" << endl << endl;
+    //cout << "Please enter the operation. Format: a+b | a-b | a*b | a/b | a%b "
+    //    << endl;
+    
+    /* cout << "Please enter two numbers:\n";
+    cin >> a >> b; */
+
+    /* cout << "What is your name?\n"
+    getline(cin,strName) */
 
     Calculator c;
     while (true)
@@ -34,18 +120,10 @@ int main()
         }
 
         cout << "Result is: " << result << endl;
+
+        /* d = a + b;
+        cout << "The sum is: " << d << endl; */
     }
 
     return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
