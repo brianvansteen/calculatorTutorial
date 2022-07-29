@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Calculator.h"
+#define Hello_World std::cout<<"I am from a macro!"<<std::endl;
 
 using namespace std;
 
@@ -83,6 +84,8 @@ int main()
     double y = 0.0;
     double result = 0.0;
     char oper = '+';
+
+    Hello_World;
 
     //Vehicle v;
     //v.beepHorn();
