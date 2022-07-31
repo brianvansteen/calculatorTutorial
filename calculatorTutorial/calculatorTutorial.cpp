@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Calculator.h"
+#include <vector>
 #define Hello_World std::cout<<"I am from a macro!"<<std::endl;
 
 using namespace std;
@@ -13,7 +14,7 @@ public:
     Vehicle(); // constructor
     float getSpeed(); // functions
     void accelerate(); // functions
-    void beepHorn(); // functions
+    virtual void beepHorn() = 0; // functions
     float speed; // data; variable
     virtual void decelerate() = 0; // pure virtual function; class becomes abstract that cannot be directly used; can inherite from it and implement the pure virtual function
 
@@ -26,8 +27,33 @@ class Train : public Vehicle // definition inherite from the vehicle class; all 
 public:
     Train(); // constructor
     void beepHorn(); // to have train beepHorn instead of vehicle beepHorn
-    virtual void decelerate() override;
+    void decelerate();
 };
+
+class Car : public Vehicle // definition inherite from the vehicle class; all properties and functions from vehicle; cannot access private
+{
+public:
+    Car(); // constructor
+    void beepHorn(); // to have train beepHorn instead of vehicle beepHorn
+    void decelerate();
+};
+
+Car::Car() // constructor
+{
+
+}
+
+void Car::beepHorn()
+{
+    if (getSpeed() < 0.5f)
+    {
+        std::cout << getSpeed() << ": pippip says the car" << std::endl;
+    }
+    else
+    {
+        std::cout << getSpeed() << ": BWOOOOAR says the car!" << std::endl;
+    }
+}
 
 Train::Train() // constructor
 {
@@ -38,15 +64,20 @@ void Train::beepHorn()
 {
     if (getSpeed() < 0.5f)
     {
-        std::cout << getSpeed() << ": bip bip" << std::endl;
+        std::cout << getSpeed() << ": bip bip says the train" << std::endl;
     }
     else
     {
-        std::cout << getSpeed() << ": BOOP BIIP!" << std::endl;
+        std::cout << getSpeed() << ": BOOP BIIP says the train!" << std::endl;
     }
 }
 
 void Train::decelerate()
+{
+    speed -= 0.5f;
+}
+
+void Car::decelerate()
 {
     speed -= 0.5f;
 }
@@ -66,15 +97,15 @@ void Vehicle::accelerate()
     speed += 0.5f;
 }
 
-void Vehicle::decelerate()
-{
-    speed -= 0.5f;
-}
+//void Vehicle::decelerate()
+//{
+//    speed -= 0.5f;
+//}
 
-void Vehicle::beepHorn()
-{
-    std::cout << "meep meep" << std::endl;
-}
+//void Vehicle::beepHorn()
+//{
+//    std::cout << "meep meep" << std::endl;
+//}
 
 int main()
 {
@@ -96,6 +127,33 @@ int main()
     t.beepHorn();
     t.decelerate();
     t.beepHorn();
+    std::cout << "Standalone" << std::endl << std::endl;
+
+    std::vector<Vehicle*> vehicles;
+
+    vehicles.push_back(new Car()); // child class elements
+    vehicles.push_back(new Train());
+
+    for (Vehicle* v : vehicles)
+    {
+        std::cout << "Vectors" << std::endl;
+        v->beepHorn();
+        v->getSpeed();
+        v->accelerate();
+        v->beepHorn();
+        v->decelerate();
+        v->beepHorn();
+        std::cout << std::endl;
+    }
+
+    Vehicle* v1 = new Car(); // child class
+    Vehicle* v2 = new Train(); // child class
+
+    std::cout << "New calls:" << std::endl;
+    v1->beepHorn();
+    v2->beepHorn();
+    v1->accelerate();
+    v1->beepHorn();
 
     //cout << "Hello World!\n";
     //cout << "Calculator Console Application" << endl << endl;
